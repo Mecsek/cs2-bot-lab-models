@@ -18,6 +18,12 @@ def load(name: str | None = None) -> pd.DataFrame:
         files = list_datasets()
         if not files:
             raise FileNotFoundError(f"No .parquet files in {RAW_DATA_DIR}")
-        return pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
+        return pd.concat(
+            [
+                pd.read_parquet(f, engine="pyarrow", dtype_backend="pyarrow")
+                for f in files
+            ],
+            ignore_index=True,
+        )
     path = RAW_DATA_DIR / (name if name.endswith(".parquet") else f"{name}.parquet")
     return pd.read_parquet(path)
