@@ -40,13 +40,27 @@ models/        ← trained models
 
 ## Loading data
 
-```python
-from cs2_bot_lab_models.data import load, list_datasets, MODELS_DIR
+Each table is a folder under `data/raw/parquet/`, split into `map=<name>` subfolders.
 
-list_datasets()          # all .parquet files under data/raw
-df = load("rounds")      # loads data/raw/rounds.parquet
-df = load()              # loads every file in data/raw, combined
+```python
+import pyarrow.dataset as ds
+
+from cs2_bot_lab_models.data import list_tables, load, load_all
+
+list_tables()            # ['bomb_events', 'damage', 'grenades', 'kills', 'round_state_samples', 'rounds', 'ticks']
+
+# Whole table in memory, ready for scikit-learn
+df = load_all("rounds")
+df = load_all("rounds", columns=["match_id", "round", "winner_side"])
+df = load_all("rounds", filter=ds.field("map") == "de_dust2")
+
+# Large tables (e.g. ticks, ~117M rows): read in batches instead
+for batch in load("ticks", batch_size=100_000, columns=["match_id", "tick", "hp"]):
+    ...
 ```
+
+`load()` and `load_all()` take the same `columns` and `filter` arguments.
+`load()` yields pandas DataFrames with Arrow-backed column types; `load_all()` returns standard NumPy types.
 
 ## Example: train and save a model
 
