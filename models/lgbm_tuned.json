@@ -1,0 +1,34 @@
+{
+  "study_name": "lgbm_ct_won",
+  "best_trial": 2,
+  "trials_in_study": 3,
+  "match_fraction": 0.25,
+  "params": {
+    "objective": "binary",
+    "subsample_freq": 1,
+    "verbose": -1,
+    "random_state": 42,
+    "n_jobs": -1,
+    "learning_rate": 0.017240892195821537,
+    "num_leaves": 25,
+    "min_child_samples": 80,
+    "colsample_bytree": 0.762378215816119,
+    "subsample": 0.7159725093210578,
+    "reg_alpha": 4.17890272377219e-06,
+    "reg_lambda": 0.0032112643094417484,
+    "n_estimators": 412
+  },
+  "cv_log_loss": 0.45255560340172,
+  "test_scores": {
+    "tuned": {
+      "log_loss": 0.42648232340504083,
+      "roc_auc": 0.8140837486349158,
+      "brier": 0.13826488345482757
+    },
+    "default": {
+      "log_loss": 0.4350910208979013,
+      "roc_auc": 0.8051014077423311,
+      "brier": 0.14178016102406965
+    }
+  }
+}
